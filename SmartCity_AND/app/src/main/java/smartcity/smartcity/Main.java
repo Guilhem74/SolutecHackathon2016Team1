@@ -1,5 +1,6 @@
 package smartcity.smartcity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,20 +17,15 @@ import android.view.View;
 
 
 import android.location.LocationListener;
-
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.Console;
 
 public class Main extends AppCompatActivity implements LocationListener {
 
@@ -45,7 +41,11 @@ public class Main extends AppCompatActivity implements LocationListener {
     public void onLocationChanged(Location location) {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
-        map.animateCamera(cameraUpdate);
+        if (map != null)
+            map.animateCamera(cameraUpdate);
+        else {
+            // ERRORRORROROR
+        }
         locationManager.removeUpdates(this);
     }
 
@@ -63,18 +63,20 @@ public class Main extends AppCompatActivity implements LocationListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        int resID = getResources().getIdentifier("mapView", "id", getPackageName());
-        MapView vvvview = (MapView)findViewById(resID);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && this.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION);
-        }
 
-        vvvview.getMapAsync(new OnMapReadyCallback() {
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+
+        int mapID = getResources().getIdentifier("mapView", "id", getPackageName());
+        MapView mapView = (MapView)findViewById(mapID);
+
+
+        mapView.getMapAsync(new OnMapReadyCallback() {
+
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
-
 
                 LatLng Solutec = new LatLng(45.746149, 4.834771);
                 map.addMarker(new MarkerOptions().position(Solutec).alpha(0.0f));
@@ -136,38 +138,36 @@ public class Main extends AppCompatActivity implements LocationListener {
 
     }
 
+
+
+
+    public void onSearchButtonClick(View v) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestLocationPermission();
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
+    }
+
+
+
+    public void requestLocationPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION) == false) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION);
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] result){
         super.onRequestPermissionsResult(requestCode, permissions, result);
 
-
-        System.out.println("OKOKKOKDKODOKDOKDOKDOKDOKOKDOKDDOKOK");
-
-        System.out.println(requestCode);
         if(requestCode == LOCATION_PERMISSION && result[0] == PackageManager.PERMISSION_GRANTED){
 
-            System.out.println("OKOKKOKDKODOKD");
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this); //You can also use LocationManager.GPS_PROVIDER and LocationManager.PASSIVE_PROVIDER
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this); //You can also use LocationManager.GPS_PROVIDER and LocationManager.PASSIVE_PROVIDER
+        }
+        else {
 
+            // GERER QUAND L'USER REFUSE LA LOCALIS
         }
     }
-
-
-    public void onSearchButtonClick(View v) {
-        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-        dlgAlert.setMessage("This is an alert with no consequence");
-        dlgAlert.setTitle("App Title");
-        dlgAlert.setPositiveButton("Ok",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        //dismiss the dialog
-                    }
-                });
-        dlgAlert.show();
-
-    }
-
-
 
 }
