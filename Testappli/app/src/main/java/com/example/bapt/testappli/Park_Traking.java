@@ -26,7 +26,7 @@ public class Park_Traking extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap map) {
         LatLng Solutec = new LatLng(45.746149, 4.834771);
-        map.addMarker(new MarkerOptions().position(Solutec).title("Hackathon Solutec"));
+        map.addMarker(new MarkerOptions().position(Solutec).alpha(0.0f));
         map.moveCamera(CameraUpdateFactory.newLatLng(Solutec));
 
 
@@ -35,9 +35,9 @@ public class Park_Traking extends FragmentActivity implements OnMapReadyCallback
         Nombre_Camera = 3;
 
         int Tab_Voiture_Camera[]= new int[Nombre_Camera];
-        Tab_Voiture_Camera[0]=0;
-        Tab_Voiture_Camera[1]=4;
-        Tab_Voiture_Camera[2]=7;
+        Tab_Voiture_Camera[0]=5;
+        Tab_Voiture_Camera[1]=3;
+        Tab_Voiture_Camera[2]=5;
 
         double Tab_Coord_Lat_Camera[] = new double[Nombre_Camera];
         Tab_Coord_Lat_Camera[0]=45.747;
@@ -65,7 +65,7 @@ public class Park_Traking extends FragmentActivity implements OnMapReadyCallback
             if(Tab_Voiture_Camera[i]>3)
                 Couleur_place_libre = BitmapDescriptorFactory.HUE_GREEN;
 
-            map.addMarker(new MarkerOptions().position(Coord_Cam[i]).title("a").icon(BitmapDescriptorFactory.defaultMarker(Couleur_place_libre)));
+            map.addMarker(new MarkerOptions().position(Coord_Cam[i]).icon(BitmapDescriptorFactory.defaultMarker(Couleur_place_libre)));
         }
 
 
