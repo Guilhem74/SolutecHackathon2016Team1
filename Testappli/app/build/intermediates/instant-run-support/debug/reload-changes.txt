@@ -1,4 +1,0 @@
-CHANGED,/home/nicolas/AndroidStudioProjects/SmartCity/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/smartcity/smartcity/Main$2$override.class
-CHANGED,/home/nicolas/AndroidStudioProjects/SmartCity/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/com/android/tools/fd/runtime/AppPatchesLoaderImpl.class
-CHANGED,/home/nicolas/AndroidStudioProjects/SmartCity/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/smartcity/smartcity/Main$1$override.class
-CHANGED,/home/nicolas/AndroidStudioProjects/SmartCity/app/build/intermediates/transforms/instantRun/debug/folders/4000/5/enhanced/smartcity/smartcity/Main$override.class
