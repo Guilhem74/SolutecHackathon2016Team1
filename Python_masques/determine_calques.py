@@ -27,7 +27,7 @@ camera = open(file)
 
 
 # ouverture échantillon de sol
-file  = 'macadam.png'
+file  = 'macadam2.png'
 macadam = open(file)
 
 # création de la base de données pixel macadam
