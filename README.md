@@ -139,3 +139,38 @@ Lecture base de données: **fini**
 Stockage: **fini**
 
 
+###Avancé du planning dimanche matin à 13h30:
+
+**Traitement image**
+
+Création d’un calque: **Fonctionnel** mais en amélioration
+
+Détection véhicules sur une image: **Fonctionnel**
+
+Sur une vidéo: **Fonctionnel**
+
+Intégration base de données: **fini**
+
+
+**Application**
+
+Intégrer Map: **fini**
+
+Création bouton pour Recherche/Localisation: **fini**
+
+Action à associer aux boutons : **fini**
+
+Design: **fini**
+
+Lecture base de données: **fini**
+
+Bouton favori : **fonctionnel**
+
+**Base de données**
+
+Stockage: **fini**
+
+
+**Plus**
+Page html : **finie**
+powerpoint: **en cour**
