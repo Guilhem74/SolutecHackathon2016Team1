@@ -39,10 +39,10 @@ IMAGES = True
 					--- Déclaration des variables ---
 """
 # Chemin image camera
-chemin_image_camera = "camera.png"
+chemin_image_camera = "exemples_source/camera1.png"
 
 # Chemin "base de donnee" pixels sol
-chemin_pixels_macadam = "macadam3.png"
+chemin_pixels_macadam = "base_macadam/macadam_ultime.png"
 
 # Chemin image a nettoyer
 chemin_image_a_nettoyer = "1_noirOUvert.png"
