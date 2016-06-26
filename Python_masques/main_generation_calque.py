@@ -1,11 +1,11 @@
 #-*- coding: utf-8 -*-
 from PIL.Image import *
-from PIL import ImageFilter
+import ImageFilter
 from scipy import signal
 from scipy import misc
 from scipy import ndimage
 import numpy as np
-from PIL import ImageDraw
+import ImageDraw
 
 from fonctions import *
 
@@ -39,10 +39,10 @@ IMAGES = True
 					--- Déclaration des variables ---
 """
 # Chemin image camera
-chemin_image_camera = "exemples_source/camera1.png"
+chemin_image_camera = "exemples_source/camera.png"
 
 # Chemin "base de donnee" pixels sol
-chemin_pixels_macadam = "base_macadam/macadam_ultime.png"
+chemin_pixels_macadam = "base_macadam/macadam3.png"
 
 # Chemin image a nettoyer
 chemin_image_a_nettoyer = "1_noirOUvert.png"

@@ -1,11 +1,11 @@
 #-*- coding: utf-8 -*-
 from PIL.Image import *
-from PIL import ImageFilter
+import ImageFilter
 from scipy import signal
 from scipy import misc
 from scipy import ndimage
 import numpy as np
-from PIL import ImageDraw
+import ImageDraw
 
 
 """
