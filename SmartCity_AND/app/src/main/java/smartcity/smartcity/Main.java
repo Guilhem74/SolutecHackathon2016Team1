@@ -8,12 +8,14 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 
 import android.location.LocationListener;
+import android.view.Window;
 import android.widget.TabHost;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -69,6 +71,8 @@ public class Main extends AppCompatActivity implements LocationListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         setupTab();
 
 
@@ -131,11 +135,12 @@ public class Main extends AppCompatActivity implements LocationListener {
     }
 
 
-    public void onSearchButtonClick(View v) {
+    public void onRefreshButtonClick(View v) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestLocationPermission();
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
+        updateCamInfo();
     }
 
 
@@ -147,19 +152,19 @@ public class Main extends AppCompatActivity implements LocationListener {
 
         TabHost.TabSpec spec = host.newTabSpec("Favoris");
         spec.setContent(R.id.tab1);
-        spec.setIndicator("",getResources().getDrawable(R.drawable.a));
+        spec.setIndicator("",getResources().getDrawable(R.drawable.map));
         host.addTab(spec);
 
 
         spec = host.newTabSpec("Favoris");
         spec.setContent(R.id.tab2);
-        spec.setIndicator("",getResources().getDrawable(R.drawable.b));
+        spec.setIndicator("",getResources().getDrawable(R.drawable.favoris));
         host.addTab(spec);
 
 
         spec = host.newTabSpec("FAQ");
         spec.setContent(R.id.tab3);
-        spec.setIndicator("",getResources().getDrawable(R.drawable.c));
+        spec.setIndicator("",getResources().getDrawable(R.drawable.faq));
         host.addTab(spec);
     }
 

@@ -3,4 +3,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="faq_text"><![CDATA[\n\t\t\t\tFAQ\n  \n Rouge, orange, vert ? Mais que signifient ces couleurs ?\nC\'est très simple, si la caméra ne détecte aucune place le marqueur est rouge, entre 1 et 4 places le marqueur est orange, au-delà de 4 places alors le marqueur est vert.\n \n
+    Cette application est vraiment géniale, mais comment ça marche ?\n Nous récupérons le flux vidéo des caméras situées en ville, analysons les images et renvoyons à l\'application le nombre de place libre que voit la caméra.\n \n
+    Puis-je me garer avec mon camion ou véhicule de taille importante ? \n L\'application ne permet pas de connaitre l\'emplacement précis des places et celles-ci sont calculées pour des voitures standard, il est donc possible que votre camion soit légèrement trop gros pour rentrer dans une de ces places standards \n \n
+     Aucune place n\'est détectée par l\'application mais j\'ai quand même réussi à me garer, c\'est nul votre truc ! \n Pas du tout ! Notre programme est fait pour s\'améliorer au fil du temps. Nous repérons une place libre que lors ce qu\'elle a déjà été occupée par une voiture, ce qui vous assure qu\'une place signalée comme libre est bien une place où vous pourrez vous garer. Cette méthode est garante de notre qualité de service !\n \n
+     Les voitures c\'est bien mais ça pollue !Quelle est votre contribution pour l\'environnement ? La recherche de place dans les grandes villes comme Paris ou Lyon représente entre 5 et 15% de la circulation dans les villes. Réduire le temps de recherche permettra donc de diminuer cette circulation parasite.\n \n
+     Allez-vous faire une extension pour les hélicoptères ? \n La version Smart-Sky City est en cours de développement.]]></string>
 </resources>
