@@ -29,13 +29,32 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
+                android:background="@drawable/bande"
                 android:layout_height="89dp"
-                android:layout_weight="0.61"></LinearLayout>
+                android:layout_weight="0.61"
+                android:weightSum="1">
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="64dp"
+                    android:layout_height="62dp"
+                    android:background="@drawable/search"
+                    android:id="@+id/button2"
+                    android:layout_gravity="right" />
+
+                <Button
+                    android:layout_width="57dp"
+                    android:layout_height="54dp"
+                    android:background="@drawable/refresh"
+                    android:id="@+id/button"
+                    android:layout_gravity="right" />
+
+            </LinearLayout>
 
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
-                android:background="@drawable/grey"
+
                 android:layout_height="15dp"
                 android:layout_weight="0.52"></TabWidget>
 
@@ -79,9 +98,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_gravity="bottom"></LinearLayout>
+                    android:layout_gravity="bottom">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="A quoi correspondent les couleurs (rouge,jaune,vert)"
+                        android:background="@drawable/blanc"
+                        android:id="@+id/textView" />
+                </LinearLayout>
             </FrameLayout>
 
         </LinearLayout>
     </TabHost>
+
 </RelativeLayout>

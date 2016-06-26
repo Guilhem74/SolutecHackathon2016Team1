@@ -3,6 +3,7 @@ package smartcity.smartcity;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
@@ -146,19 +147,19 @@ public class Main extends AppCompatActivity implements LocationListener {
 
         TabHost.TabSpec spec = host.newTabSpec("Favoris");
         spec.setContent(R.id.tab1);
-        spec.setIndicator("Accueil");
+        spec.setIndicator("",getResources().getDrawable(R.drawable.a));
         host.addTab(spec);
 
 
         spec = host.newTabSpec("Favoris");
         spec.setContent(R.id.tab2);
-        spec.setIndicator("Favoris");
+        spec.setIndicator("",getResources().getDrawable(R.drawable.b));
         host.addTab(spec);
 
 
         spec = host.newTabSpec("FAQ");
         spec.setContent(R.id.tab3);
-        spec.setIndicator("FAQ");
+        spec.setIndicator("",getResources().getDrawable(R.drawable.c));
         host.addTab(spec);
     }
 
