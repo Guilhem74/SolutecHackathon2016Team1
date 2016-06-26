@@ -5,7 +5,7 @@ all: Smartcity
 
 
 Smartcity: main.o
-	g++ $^ -o SmartCity -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_objdetect
+	g++ $^ -o SmartCity -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_objdetect -lmysqlcppconn
 	
 main.o : 
 

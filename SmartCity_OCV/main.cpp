@@ -1,93 +1,154 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <assert.h>
+//sudo apt-get install libmysqlcppconn-dev
+#include <cppconn/driver.h>
+#include <cppconn/exception.h>
+#include <cppconn/resultset.h>
+#include <cppconn/statement.h>
+#include <mysql_connection.h>
 
 using namespace std;
-
-
+using namespace cv;
+/* Doit etre fourni en second paramètre le nombre de caméra*/
 int main(int argc, char** argv)
 {
 
-    cv::Mat src_img, gray_img, eq_img, result_img;
+    assert(argc==2);
+    int Nombre_Camera=atoi(argv[1]);
+    int Nmbr_Voiture[Nombre_Camera]={};
+    for(int l=0; l<Nombre_Camera;l++)
+    {
+        char Nom_fichier[20+Nombre_Camera/10]="Camera";
+        sprintf(Nom_fichier,"Camera%d.avi",l+1);
+        printf("%s\n",Nom_fichier);
+        //Transformation Video to Jpg
+        CvCapture* capture=0;
+        IplImage* frame=0;
 
-            src_img = cv::imread("Photos/Photo0.jpg", CV_LOAD_IMAGE_COLOR);
-            if (src_img.data == NULL) {
-                    printf("cv::imread() failed...\n");
-                    return -1;
-            }
+        capture = cvCaptureFromAVI(Nom_fichier); // Lit AVI video
+        if( !capture )
+            throw "Error when reading steam_avi";
 
-            cv::cvtColor(src_img, gray_img, CV_RGB2GRAY);
-            cv::equalizeHist(gray_img, eq_img);
-            result_img = src_img.clone();
+        /*On ne recupere qu'une frame*/
+        frame = cvQueryFrame( capture );
 
-            cv::CascadeClassifier cascade;
-            if (cascade.load("cas1.xml") == false) {
-                    printf("cascade.load() failed...\n");
-                    return -1;
-            }
+        Mat Image_Solo = cvarrToMat(frame);
+        /*On cherche a remplace .avi par .jpg*/
 
-            std::vector<cv::Rect> faces;
-            cascade.detectMultiScale(
-                    eq_img,
-                    faces,
-                    1.1,          // scale factor
-                    3,            // minimum neighbors
-                    0,            // flags
-                    cv::Size(100, 100) // minimum size
-                    );
+        Nom_fichier[strlen(Nom_fichier)-1]='g';
+        Nom_fichier[strlen(Nom_fichier)-2]='p';
+        Nom_fichier[strlen(Nom_fichier)-3]='j';
 
-            std::vector<cv::Rect>::const_iterator i;
-            int k=0;
-            int x_min[100]={};
-            int y_min[100]={};
-            bool valide[100]={true};
+        /*On ecrit l'image*/
+        imwrite( Nom_fichier,Image_Solo);
+        //Nom_fichier.jpg existe alors
 
-            for (i = faces.begin(); i != faces.end(); ++i) {
+        /* Executionn du script python afin de modifier photo*/
+        /*if(fork()==0)
+    {//On est fils
+        int retour=execlp("python","python","main_superposition_calque.py",Nom_fichier,NULL);//Disparition du fils avec le execlp
+        printf("Execlp echoue\n");
+        exit(-1);
+    }
+    //On est père
+    wait(Null);//attente fin du fils*/
 
-                    x_min[k]=i->x;//i->x + i->width max
-                    y_min[k]=i->y;
-                k++;
-            }
-            int k_max=k;
-            printf("%d\n",k_max);
-            int j;
-            i = faces.begin();
-            for(k=0;k<k_max && i != faces.end();k++)
-            {
-                for(j=0;j<k_max&&valide[k]==true;j++)
-                {
-                    if( (x_min[k]>x_min[j]) && ((x_min[k]+ i->width)<(x_min[j]+ i->width)))//X contenu dans celui d'une autre case
-                    {
-                            valide[k]=false;
 
-                    }
+        //Traitement du nombre de Voiture
+        Mat Image_Source, gray_img, eq_img, result_img;
+        //on vient stocker la matrice sour la forme d'une matrice
+        Image_Source = imread(Nom_fichier, CV_LOAD_IMAGE_COLOR);
+        if (Image_Source.data == NULL) {
+            printf("imread() failed...\n");
+            return -1;
+        }
+        //On converti l'image en niveau de Gris vvv
+        cvtColor(Image_Source, gray_img, CV_RGB2GRAY);
+        equalizeHist(gray_img, eq_img);//lissage , Utilité a verifier
+        result_img = Image_Source.clone();
 
-                }
-                i++;
-            }
-            k=0;
-            for (i = faces.begin(); i != faces.end(); ++i) {
-                if(valide[k]==1||1)
-                {
-                cv::rectangle(
+        CascadeClassifier cascade;
+        if (cascade.load("cas1.xml") == false) {//Fichier .xml comprenant nos voitures cataloguées
+            printf("cascade.load() failed...\n");
+            return -1;
+        }
+
+        vector<Rect> faces;
+        cascade.detectMultiScale(//la formule magique pour detecter nos voitures
+                                 eq_img,//image lissée en niveau de gris
+                                 faces,//vecteur
+                                 1.1,          // Facteur d'echelle
+                                 4,            // minimum neighbors
+                                 0,            // flags
+                                 Size(100, 100) // Taille minimum d'un carré pour la detection
+                                 );
+
+        vector<Rect>::const_iterator i;
+        int Nbr_Vehicules=0;
+        for (i = faces.begin(); i != faces.end(); ++i)
+        {
+
+            rectangle(
                         result_img,
-                        cv::Point(i->x, i->y),
-                        cv::Point(i->x + i->width, i->y + i->height),
+                        Point(i->x, i->y),
+                        Point(i->x + i->width, i->y + i->height),
                         CV_RGB(255, 0, 0),
                         2);
-                }
-                else
-                {
-                    printf("Imbriquation\n");
-                }
-                k++;
-            }
+            Nbr_Vehicules++;
 
+        }
+        Nmbr_Voiture[l]=Nbr_Vehicules;
+        //Nbr_Vehicules représentent le nombres de vehicules présent sur la photo
+// imshow("result_img", result_img);
+        //TODO: Comm base de données
+    }
 
-            while(true) {
-                    cv::imshow("result_img", result_img);
-                    int c = cv::waitKey(0);
-                    if (c == 27) break;
+    sql::Driver *driver;
+     sql::Connection *con;
+     sql::Statement *stmt;
+     sql::ResultSet *res;
+
+     /* Create a connection */
+     driver = get_driver_instance();
+     con = driver->connect("localhost", "root", "azzaro");
+     /* Connect to the MySQL test database */
+     con->setSchema("Carte_Cam");
+
+     stmt = con->createStatement();
+      res = stmt->executeQuery("SELECT * FROM Camera");
+      while (res->next()) {
+        int Num=res->getInt("Numero") ;
+        int Lat=res->getInt("Latitude");
+        int Long=res->getInt("Longitude") ;
+        int Places_MAX=res->getInt("Nbr_places_MAX") ;
+        int Places_DISPO=res->getInt("Nbr_places_DISPO") ;
+        int Util=res->getInt("Utilisable");
+        if(Num>=Nombre_Camera+1)
+        {
+            break;
+        }
+        printf("PPP\n");
+        if(Util==1)
+        {
+            if(Places_MAX<Nmbr_Voiture[Num-1])
+            {
+                Places_MAX=Nmbr_Voiture[Num-1];
+                Places_DISPO=0;
             }
+            else
+            {
+                Places_DISPO=Places_MAX-Nmbr_Voiture[Num-1];
+
+            }
+            char Envoie_requete[1000]={};
+               sprintf(Envoie_requete,"UPDATE `Camera` SET `Latitude`=%d, `Longitude`=%d,`Nbr_places_MAX`=%d,`Nbr_places_DISPO`=%d WHERE `Numero`=%d;",Lat,Long,Places_MAX,Places_DISPO,Num);
+            stmt->execute(Envoie_requete);
+        }
+      }
+
 
 }
