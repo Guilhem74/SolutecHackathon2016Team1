@@ -1,11 +1,11 @@
 #-*- coding: utf-8 -*-
 from PIL.Image import *
-import ImageFilter
+from PIL import ImageFilter
 from scipy import signal
 from scipy import misc
 from scipy import ndimage
 import numpy as np
-import ImageDraw
+from PIL import ImageDraw
 
 from fonctions import *
 
@@ -63,7 +63,7 @@ chemin_image_noir_ou_vert = "3_noir_ou_vert.png"
 filtre_contraste = np.array([[0, 0, 0, 0, 0],[0, 0, -1, 0, 0],[0, -1, 5, -1, 0],[0, 0, -1, 0, 0], [0, 0, 0, 0, 0]])
 
 # Nombre de passage dans la boucle d'augmentation du contraste
-nbr_de_passage = 14
+nbr_de_passage = 21
 
 # Precision du découpage en tranche de l'étape 3
 nombre_de_tranches = 7
@@ -138,8 +138,12 @@ for numero_du_passage in range(nbr_de_passage):
 	array_nettoye_contraste = Appliquer_Filtre_Normalisation(array_nettoye_contraste, filtre_contraste, 1)
 	array_nettoye_contraste = Appliquer_Filtre(array_nettoye_contraste, filtre_median)
 image_nettoyee_contraste = Transforme_Array_en_Image(array_nettoye_contraste,(0,1,0))
-Enregistre_Image(image_nettoyee_contraste, chemin_image_nettoyee_contraste, IMAGES)	
+Enregistre_Image(image_nettoyee_contraste, chemin_image_nettoyee_contraste, IMAGES)
 
+# Conversion de l'image en vert OU noir
+calques_image_nettoyee_contraste = Extraire_Calque_Image_Sans_Alpha(image_nettoyee_contraste)
+image_noir_ou_vert = Binarisation_Couleur_Image(calques_image_nettoyee_contraste[1], seuil_difference_noir_vert)
+Enregistre_Image(image_noir_ou_vert, chemin_image_noir_ou_vert, IMAGES)
 
 Checkpoint(2.1, CHECKPOINT)
 
@@ -151,10 +155,10 @@ Checkpoint(2.1, CHECKPOINT)
 # determine l'axe de la rue en par découpage en tranche, detection des centres de masses, puis regression lineaire (3)
 
 liste_centre_masse = []
-image_nettoyee_contraste = Ouvrir_Image(chemin_image_nettoyee_contraste)
+image_nettoyee_contraste = Ouvrir_Image(chemin_image_noir_ou_vert)
 
 # On decoupe l'image en tranche
-for tranche in range(nombre_de_tranches):
+for tranche in range(1, nombre_de_tranches - 1):
 	depart_tranche = (0, tranche*(image_nettoyee_contraste.size[1]/nombre_de_tranches))
 	taille_tranche = (image_nettoyee_contraste.size[0], image_nettoyee_contraste.size[1]/nombre_de_tranches)
 	tranche_image = Extraire_Bout_Image(image_nettoyee_contraste, depart_tranche, taille_tranche)
@@ -166,7 +170,7 @@ for tranche in range(nombre_de_tranches):
 Debug("liste centre de masse", liste_centre_masse, DEBUG)
 # On effectue la regression lineaire et on trace sur l'image
 coeff_a, coeff_b = Regression_Lineaire(liste_centre_masse)
-Trace_Droite(image_nettoyee_contraste, coeff_a, coeff_b)
+image_nettoyee_contraste = Trace_Droite(image_nettoyee_contraste, coeff_a, coeff_b)
 Enregistre_Image(image_nettoyee_contraste, chemin_image_nettoyee_avec_droite, IMAGES)
 
 Checkpoint(3, CHECKPOINT)
@@ -181,10 +185,6 @@ Checkpoint(3, CHECKPOINT)
 # On cherche la route de part et d'autre de l'axe de la route determiné juste avant.
 image_nettoyee_contraste = Ouvrir_Image(chemin_image_nettoyee_contraste)
 
-# Passage de l'image en noir ET vert
-calques_image_nettoyee_contraste = Extraire_Calque_Image_Sans_Alpha(image_nettoyee_contraste)
-image_noir_ou_vert = Binarisation_Couleur_Image(calques_image_nettoyee_contraste[1], seuil_difference_noir_vert)
-Enregistre_Image(image_noir_ou_vert, chemin_image_noir_ou_vert, IMAGES)
 
 #Technique n.1 pour determiner la largeur de la route, pas efficace et très lente
 """
