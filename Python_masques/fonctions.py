@@ -126,6 +126,22 @@ def Appliquer_Filtre(matrice, filtre):
 	return matrice_resultat
 
 
+def Appliquer_Filtre_Normalisation(matrice, filtre, coeff_normalisation):
+	"""
+	Applique le "filtre", un array numpy a la matrice (array numpy) d'une image en faisant un produit de convolution
+	en fixant le coeff de normalisation
+	"""
+	matrice_resultat = signal.convolve2d(matrice, filtre)
+	nbr_coeffs_dans_filtre = filtre.shape[0]*filtre.shape[1]
+	matrice_resultat = matrice_resultat/coeff_normalisation
+	# Securite en cas de coeff de normalisation insuffisasnte
+	for x in range(matrice_resultat.shape[0]):
+		for y in range(matrice_resultat.shape[1]):
+			if matrice_resultat[x][y] > 255:
+				matrice_resultat[x][y] = 255
+	return matrice_resultat
+
+
 def Transforme_Array_en_Image(array, calque):
 	"""
 	Prend un "array" et le transforme en image au format PIL. La couleur est appliqué au calque indiqué par 
