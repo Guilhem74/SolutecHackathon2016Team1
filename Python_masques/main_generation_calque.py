@@ -225,10 +225,51 @@ array = Transformer_Calque_Image_en_Array(calques[1])
 
 # Application du filtre laplacien + renforcement
 array = Appliquer_Filtre(array, filtre_laplacien)
-for i in range(5):
-	array = Appliquer_Filtre(array, filtre_laplacien)
+#for i in range(5):
+#	array = Appliquer_Filtre(array, filtre_laplacien)
 image = Transforme_Array_en_Image(array,(0,1,0))
 Enregistre_Image(image, chemin_image_bord, IMAGES)	
+
+
+# Augmentation du contraste
+array = Appliquer_Filtre_Normalisation(array, filtre_contraste, 1)
+image = Transforme_Array_en_Image(array,(0,1,0))
+Enregistre_Image(image, "4_bords_et_contraste.png", IMAGES)	
+
+# Recherche d'intersection avec les bords
+centre_x = int(image.size[0]/2)
+centre_y = int(coeff_a * centre_x +coeff_b)
+
+#recherche vers la droite
+for x in range(centre_x,image.size[0]):
+	if Image.getpixel(image, (x,centre_y)) != (0,0,0):
+			bord_forme_droite = x
+
+#recherche vers la gauche
+for x in range(0,centre_x):
+	if Image.getpixel(image, (x,centre_y)) != (0,0,0):
+			bord_forme_droite = x
+
+#recherche vers le haut
+for y in range(0,centre_y):
+	if Image.getpixel(image, (centre_x, y)) != (0,0,0):
+			bord_forme_haut = y
+
+#recherche vers la bas
+for y in range(centre_y,image.size[1]):
+	if Image.getpixel(image, (centre_x,y)) != (0,0,0):
+			bord_forme_bas = y
+
+point_haut = (centre_x, bord_forme_haut)
+point_bas = (centre_x, bord_forme_bas)
+point_droite = (bord_forme_droite, centre_y)
+point_gauche = (bord_forme_gauche, centre_y)
+draw = ImageDraw.Draw(image)
+
+draw.line(point_haut + point_gauche, fill="red")
+draw.line(point_bas + point_droite, fill="red")
+del draw
+image.save("bord_de_rue.png", "PNG")
 
 
 
