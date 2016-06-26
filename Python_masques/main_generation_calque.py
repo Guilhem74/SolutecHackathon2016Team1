@@ -42,7 +42,7 @@ IMAGES = True
 chemin_image_camera = "camera.png"
 
 # Chemin "base de donnee" pixels sol
-chemin_pixels_macadam = "macadam2.png"
+chemin_pixels_macadam = "macadam3.png"
 
 # Chemin image a nettoyer
 chemin_image_a_nettoyer = "1_noirOUvert.png"
@@ -63,7 +63,7 @@ chemin_image_noir_ou_vert = "3_noir_ou_vert.png"
 filtre_contraste = np.array([[0, 0, 0, 0, 0],[0, 0, -1, 0, 0],[0, -1, 5, -1, 0],[0, 0, -1, 0, 0], [0, 0, 0, 0, 0]])
 
 # Nombre de passage dans la boucle d'augmentation du contraste
-nbr_de_passage = 5
+nbr_de_passage = 14
 
 # Precision du découpage en tranche de l'étape 3
 nombre_de_tranches = 7
@@ -185,6 +185,9 @@ image_nettoyee_contraste = Ouvrir_Image(chemin_image_nettoyee_contraste)
 calques_image_nettoyee_contraste = Extraire_Calque_Image_Sans_Alpha(image_nettoyee_contraste)
 image_noir_ou_vert = Binarisation_Couleur_Image(calques_image_nettoyee_contraste[1], seuil_difference_noir_vert)
 Enregistre_Image(image_noir_ou_vert, chemin_image_noir_ou_vert, IMAGES)
+
+#Technique n.1 pour determiner la largeur de la route, pas efficace et très lente
+"""
 largeur_route = []
 epaisseur_bande_detection_route = image_noir_ou_vert.size[1]/nombre_bande_detection_route
 for tranche in range(nombre_bande_detection_route):
@@ -208,6 +211,7 @@ for tranche in range(nombre_bande_detection_route):
 	distance_max_gauche = distance_max_gauche + 1
 	largeur_route.append((distance_max_gauche,distance_max_droite))
 Debug("largeur route", largeur_route, DEBUG)
+"""
 Checkpoint(4, CHECKPOINT)
 
 

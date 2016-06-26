@@ -19,9 +19,10 @@ print str(sys.argv)
 chemin_acces_photo = sys.argv[1]
 image_cible = Ouvrir_Image(chemin_acces_photo)
 
+numero_camera = int(sys.argv[2])
 
 # On ouvre le calque
-calque = Ouvrir_Image("calque.png")
+calque = Ouvrir_Image("calque" + str(numero_camera) + ".png")
 
 # On supperpose le calque 
 for x in range(image_cible.size[0]):
