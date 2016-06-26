@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <assert.h>
-
+//sudo apt-get install libmysqlcppconn-dev
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/resultset.h>
