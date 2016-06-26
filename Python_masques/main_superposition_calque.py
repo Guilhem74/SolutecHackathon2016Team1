@@ -15,7 +15,8 @@ Code pour superposer le calque genere précedement à l'image capte par la camer
 """
 
 # On ouvre la photo de la camera
-chemin_acces_photo = str(sys.argv)[0]
+print str(sys.argv)
+chemin_acces_photo = sys.argv[1]
 image_cible = Ouvrir_Image(chemin_acces_photo)
 
 

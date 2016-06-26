@@ -68,13 +68,13 @@ nbr_de_passage = 5
 # Precision du découpage en tranche de l'étape 3
 nombre_de_tranches = 7
 
-# Epaisseur (en pixels) des bandes pour la detection de la route
-nombre_bande_detection_route = 25
+# Nombre de bandes pour la detection de la route
+nombre_bande_detection_route = 14
 
 # Seuil detection bande noire pour la route (parametre pour le même calcul que précedement)
 # il s'agit du nombre de pixel non vert a partir duquel le programme decrete que ce n'est plus de la route
 seuil_difference_noir_vert = 200
-seuil_detection_bord_trottoir = 21
+seuil_detection_bord_route = 10
 
 
 """
@@ -173,29 +173,42 @@ Checkpoint(3, CHECKPOINT)
 
 
 
+#						(4)
+#élargissement de la "zone rue" autours de l'axe determiné a l'étape d'avant, generation du "calque rue"
+
+
+
 # On cherche la route de part et d'autre de l'axe de la route determiné juste avant.
 image_nettoyee_contraste = Ouvrir_Image(chemin_image_nettoyee_contraste)
 
 # Passage de l'image en noir ET vert
-calques_image_nettoyee_contraste = Extraire_Calque_Image(image_nettoyee_contraste)
+calques_image_nettoyee_contraste = Extraire_Calque_Image_Sans_Alpha(image_nettoyee_contraste)
 image_noir_ou_vert = Binarisation_Couleur_Image(calques_image_nettoyee_contraste[1], seuil_difference_noir_vert)
 Enregistre_Image(image_noir_ou_vert, chemin_image_noir_ou_vert, IMAGES)
-
-
+largeur_route = []
+epaisseur_bande_detection_route = image_noir_ou_vert.size[1]/nombre_bande_detection_route
 for tranche in range(nombre_bande_detection_route):
 	point_de_depart_recherche_y = tranche*epaisseur_bande_detection_route + epaisseur_bande_detection_route/2
 	point_de_depart_recherche_x = int((point_de_depart_recherche_y - coeff_b)/coeff_a)
 	# Recherche à droite
 	distance_max_droite = 0
-	quantite_pixels_verts = epaisseur_bande_detection_route
-	while quantite_pixels_verts > seuil_detection_bord_trottoir:
-		 quantite_pixels_verts = Nombre_Pixels_Vert_Bande(image_noir_ou_vert, (point_de_depart_recherche_x, point_de_depart_recherche_y), distance_max_droite)
+	quantite_pixels_noir = 0
+	while quantite_pixels_noir < seuil_detection_bord_route:
+		 quantite_pixels_noir = Nombre_Pixels_Noir_Bande(image_noir_ou_vert, (point_de_depart_recherche_x, point_de_depart_recherche_y), distance_max_droite, epaisseur_bande_detection_route)
 		 distance_max_droite = distance_max_droite + 1
 	# Pour chipoter
 	distance_max_droite = distance_max_droite - 1
 	# Recherche à gauche
-	
-Checkpoint(3.1, CHECKPOINT)
+	distance_max_gauche = 0
+	quantite_pixels_noir = 0
+	while quantite_pixels_noir < seuil_detection_bord_route:
+		 quantite_pixels_noir = Nombre_Pixels_Noir_Bande(image_noir_ou_vert, (point_de_depart_recherche_x, point_de_depart_recherche_y), distance_max_gauche, epaisseur_bande_detection_route)
+		 distance_max_droite = distance_max_gauche - 1
+	# Pour chipoter
+	distance_max_gauche = distance_max_gauche + 1
+	largeur_route.append((distance_max_gauche,distance_max_droite))
+Debug("largeur route", largeur_route, DEBUG)
+Checkpoint(4, CHECKPOINT)
 
 
 

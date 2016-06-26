@@ -21,7 +21,7 @@ def Checkpoint(numero_du_point, CHECKPOINT):
 	affiche un message annoncant le succes du point spécifie ("numero_du_point")
 	"""
 	if CHECKPOINT == True:
-		print "######################### Le point " + str(numero_du_point) + " est franchit avec succes #########################"
+		print "######################### Le checkpoint n." + str(numero_du_point) + " est franchit avec succes #########################"
 
 
 def Debug(msg, a_afficher, DEBUG):
@@ -38,7 +38,7 @@ def Enregistre_Image(image, nom, IMAGES):
 	"""
 	Enregistre l'"image" fournie au format PIL avec le "nom" fourni au format png.
 	"""
-	if IMAGES = True :
+	if IMAGES == True :
 		image.save(nom, "PNG")
 
 
@@ -199,19 +199,30 @@ def Binarisation_Couleur_Image(calque_image, seuil):
 	"""
 	Transforme une image ne noir et une couleur en noir ou la couleur. 
 	"""
+	image_binaire = new("RGB", calque_image.size, "blue")
+	draw = ImageDraw.Draw(image_binaire)
+	del draw
 	for x in range(calque_image.size[0]):
 		for y in range(calque_image.size[1]):
-			if Image.getpixel(calque_image, (x,y))[1] > seuil :
-				Image.putpixel(calque_image, (x, y), (0,255,0))
+			if Image.getpixel(calque_image, (x,y)) > seuil :
+				Image.putpixel(image_binaire, (x, y), (0, 255, 0))
 			else :
-				Image.putpixel(calque_image, (x, y), (0,0,0))
-	return calque_image
+				Image.putpixel(image_binaire, (x, y), (0, 0, 0))
+	return image_binaire
 	
 
-def Nombre_Pixels_Vert_Bande(image_binaire, point_de_depart, distance):
+def Nombre_Pixels_Noir_Bande(image_binaire, point_de_depart, distance, largeur_bande):
 	"""
 	Determine le nombre de pixels verts dans une bande situe a "distance" du "point_de_depart"
 	"""
-	
-	return nombre_de_pixels_vert
+	nombre_de_pixels_noir = 0
+	haut_bande_y = point_de_depart[1]-largeur_bande/2
+	for pixel in range(largeur_bande):
+#		if haut_bande_y + pixel > image_binaire.size[1]:
+#			bande_y = image_binaire.size[1]
+#		else :
+#			bande_y = haut_bande_y + pixel
+		if Image.getpixel(image_binaire, (point_de_depart[0] + distance, haut_bande_y + pixel)) == (0, 0, 0):
+			nombre_de_pixels_noir = nombre_de_pixels_noir + 1
+	return nombre_de_pixels_noir
 	
