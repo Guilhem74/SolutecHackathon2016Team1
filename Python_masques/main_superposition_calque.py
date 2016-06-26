@@ -12,6 +12,8 @@ from fonctions import *
 
 """
 Code pour superposer le calque genere précedement à l'image capte par la camera
+
+!!!!!!!!!!!!!!!!!!!!!!! Attention a l'offset, il faudra verifier qu'il est toujours bon dan sla derniere version
 """
 
 # On ouvre la photo de la camera
@@ -27,6 +29,6 @@ calque = Ouvrir_Image("calque" + str(numero_camera) + ".png")
 # On supperpose le calque 
 for x in range(image_cible.size[0]):
 	for y in range(image_cible.size[1]):
-		if Image.getpixel(calque, (x,y)) == (0, 255, 0):
+		if Image.getpixel(calque, (x + 165, y + 165)) == (0, 255, 0):
 			Image.putpixel(image_cible, (x, y), (0,255,0))
-Enregistre_Image(image_cible, chemin_acces_photo,True)	
+Enregistre_Image(image_cible, chemin_acces_photo, True)	
