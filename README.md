@@ -19,6 +19,8 @@ L’objectif final du projet est de récupéré les flux vidéos des caméras in
 **-	Analyse d’image :**
 
 L’analyse d’image est effectuée en C++ avec la bibliothèque OpenCV après un premier traitement d’image sur Python.
+
+
 **-	BDD mySQL**
 
 **-	Application :**
@@ -27,7 +29,10 @@ L’application est développée pour Android Natif.
 
 
 ## Avancement du projet : 
-	Initialement nous nous sommes séparés en deux groupes. Trois sur la partie application et trois sur le traitement d’image. Cependant la partie détection de véhicule avançant plus rapidement que la partie développement de l’application, nous avons réorganisé le groupe. Deux sur le traitement d”image. Trois sur l’application et un sur la partie base de données.
+	Initialement nous nous sommes séparés en deux groupes. Trois sur la partie application et trois 
+	sur le traitement d’image. Cependant la partie détection de véhicule avançant plus rapidement que
+	la partie développement de l’application, nous avons réorganisé le groupe. Deux sur le traitement 
+	d”image. Trois sur l’application et un sur la partie base de données.
 ###Planning initial :
 
 **Pour l’analyse d’image :**
@@ -59,7 +64,7 @@ L’application commence à prendre forme, les coordonnées des caméras ainsi q
 Le design de l’application est fini, il sera très prochainement intégré à l’application.
 
 
-###Planning dimanche matin à 3h:
+###Planning dimanche matin à 4h:
 
 **Pour l’analyse d’image :**
 Création d’un calque: Fonctionnel mais en amélioration
