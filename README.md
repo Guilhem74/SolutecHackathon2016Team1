@@ -33,9 +33,12 @@ L’application est développée pour Android Natif.
 	sur le traitement d’image. Cependant la partie détection de véhicule avançant plus rapidement que
 	la partie développement de l’application, nous avons réorganisé le groupe. Deux sur le traitement 
 	d”image. Trois sur l’application et un sur la partie base de données.
+
+
 ###Planning initial :
 
 **Pour l’analyse d’image :**
+
 Détection véhicules sur une image: **15h**
 
 Sur une vidéo: **1h** (après avoir réussi sur image)
@@ -44,9 +47,11 @@ Intégration base de données: **4h** (après avoir bien avancé sur la détecti
 
 
 **Pour la BDD :**
+
 Stockage: **2h**
 
 **Pour l’application :**
+
 Intégrer Map: **3h**
 
 Bouton pour Recherche/Favoris/FAQ: **1h**
@@ -59,12 +64,15 @@ Lecture base de données par l’application: **5h**
 ###Avancement du planning samedi à 21h:
 
 **Pour l’analyse d’image :**
+
 Nous travaillons pour l’instant sur des photos  de rue.  On effectue un premier filtrage pour garder que les bandes de stationnement. On détecte ensuite le nombre de voiture présente sur les places de stationnement avec OpenCV.
 
 **Pour la BDD :**
+
 La base de données est fonctionnelle, nous sommes en train de l’implémenter dans l’application.
 
 **Pour l’application :**
+
 L’application commence à prendre forme, les coordonnées des caméras ainsi que le nombre de place libre sont géré mais elles ne sont pas encore connecter avec la BDD, la géolocalisation est elle aussi en cour. 
 Le design de l’application est fini, il sera très prochainement intégré à l’application.
 
@@ -72,16 +80,22 @@ Le design de l’application est fini, il sera très prochainement intégré à 
 ###Avancement du planning dimanche matin à 4h:
 
 **Pour l’analyse d’image :**
+
 Création d’un calque: **Fonctionnel** mais en amélioration
+
 Détection véhicules sur une image: **Fonctionnel**
+
 Sur une vidéo: Très rapide mais en attente d’un calque performant
+
 Intégration base de données: **2h**
 
 
 **Pour la BDD :**
+
 Stockage: **fini**
 
 **Pour l’application :**
+
 Intégrer Map: **fini**
 
 Création bouton pour Recherche/Localisation: **fini**
@@ -108,6 +122,7 @@ Intégration base de données: **fini**
 
 
 **Application**
+
 Intégrer Map: **fini**
 
 Création bouton pour Recherche/Localisation: **fini**
