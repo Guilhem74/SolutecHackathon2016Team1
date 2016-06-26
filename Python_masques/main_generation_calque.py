@@ -59,8 +59,14 @@ chemin_image_nettoyee_avec_droite = "3_noirETvert_nettoye_avec_droite.png"
 # Chemin image noir ou vert
 chemin_image_noir_ou_vert = "3_noir_ou_vert.png"
 
+# Chemin image detect bords
+chemin_image_bord = "4_bords.png"
+
 # Filtre d'augmentation du contraste (ce filtre (avec ce jeux de coeffs) augmente 7 fois le contraste)
 filtre_contraste = np.array([[0, 0, 0, 0, 0],[0, 0, -1, 0, 0],[0, -1, 5, -1, 0],[0, 0, -1, 0, 0], [0, 0, 0, 0, 0]])
+
+# Filtre de détection de bord
+filtre_laplacien = np.array([[0,1,0],[1,-4,1],[0,1,0]])
 
 # Nombre de passage dans la boucle d'augmentation du contraste
 nbr_de_passage = 21
@@ -212,6 +218,20 @@ for tranche in range(nombre_bande_detection_route):
 	largeur_route.append((distance_max_gauche,distance_max_droite))
 Debug("largeur route", largeur_route, DEBUG)
 """
+# nouvelle technique a base de detection de bords
+image = Ouvrir_Image(chemin_image_noir_ou_vert)
+calques = Extraire_Calque_Image_Sans_Alpha(image)
+array = Transformer_Calque_Image_en_Array(calques[1])
+
+# Application du filtre laplacien + renforcement
+array = Appliquer_Filtre(array, filtre_laplacien)
+for i in range(5):
+	array = Appliquer_Filtre(array, filtre_laplacien)
+image = Transforme_Array_en_Image(array,(0,1,0))
+Enregistre_Image(image, chemin_image_bord, IMAGES)	
+
+
+
 Checkpoint(4, CHECKPOINT)
 
 
