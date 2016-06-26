@@ -34,11 +34,12 @@ def Debug(msg, a_afficher, DEBUG):
 		print a_afficher
 
 
-def Enregistre_Image(image, nom):
+def Enregistre_Image(image, nom, IMAGES):
 	"""
 	Enregistre l'"image" fournie au format PIL avec le "nom" fourni au format png.
 	"""
-	image.save(nom, "PNG")
+	if IMAGES = True :
+		image.save(nom, "PNG")
 
 
 def Ouvrir_Image(chemin_fichier):
@@ -194,5 +195,23 @@ def Trace_Droite(image, coeff_a, coeff_b):
 	return image
 	
 	
+def Binarisation_Couleur_Image(calque_image, seuil):
+	"""
+	Transforme une image ne noir et une couleur en noir ou la couleur. 
+	"""
+	for x in range(calque_image.size[0]):
+		for y in range(calque_image.size[1]):
+			if Image.getpixel(calque_image, (x,y))[1] > seuil :
+				Image.putpixel(calque_image, (x, y), (0,255,0))
+			else :
+				Image.putpixel(calque_image, (x, y), (0,0,0))
+	return calque_image
 	
+
+def Nombre_Pixels_Vert_Bande(image_binaire, point_de_depart, distance):
+	"""
+	Determine le nombre de pixels verts dans une bande situe a "distance" du "point_de_depart"
+	"""
+	
+	return nombre_de_pixels_vert
 	
