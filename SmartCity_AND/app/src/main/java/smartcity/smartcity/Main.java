@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
@@ -11,12 +12,19 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.view.KeyEvent;
 import android.view.View;
 
 
 import android.location.LocationListener;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TabHost;
+
+import android.location.Address;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -27,6 +35,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 
 public class Main extends AppCompatActivity implements LocationListener {
 
@@ -34,7 +44,8 @@ public class Main extends AppCompatActivity implements LocationListener {
     private static final long MIN_TIME = 400;
     private static final float MIN_DISTANCE = 1000;
 
-    private  GoogleMap map;
+    private GoogleMap map;
+    private EditText searchView;
 
     private int LOCATION_PERMISSION = 2;
     private int INTERNET_PERMISSION = 3;
@@ -84,6 +95,41 @@ public class Main extends AppCompatActivity implements LocationListener {
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+
+        final int searchViewID = getResources().getIdentifier("searchView", "id", getPackageName());
+        searchView = (EditText)findViewById(searchViewID);
+
+        searchView.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+
+                    String g = searchView.getText().toString();
+
+                    Geocoder geocoder = new Geocoder(getBaseContext());
+                    List<Address> addresses = null;
+
+                    try {
+
+                        addresses = geocoder.getFromLocationName(g, 3);
+                        if (addresses != null && !addresses.equals(""))
+                            search(addresses);
+
+                    } catch (Exception e) {
+
+                    }
+
+                    // On referme le clavier
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    if(imm.isAcceptingText()) {
+                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
 
         int mapID = getResources().getIdentifier("mapView", "id", getPackageName());
         MapView mapView = (MapView)findViewById(mapID);
@@ -142,6 +188,33 @@ public class Main extends AppCompatActivity implements LocationListener {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
         updateCamInfo();
     }
+
+
+
+    public void onSearchButtonClick(View v) {
+
+
+    }
+
+    protected void search(List<Address> addresses) {
+
+        Address address = (Address) addresses.get(0);
+        double home_long = address.getLongitude();
+        double home_lat = address.getLatitude();
+        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+        String addressText = String.format(
+                "%s, %s",
+                address.getMaxAddressLineIndex() > 0 ? address
+                        .getAddressLine(0) : "", address.getCountryName());
+
+
+        map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        map.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+
+    }
+
 
 
 
