@@ -29,14 +29,15 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="89dp"></LinearLayout>
+                android:layout_height="89dp"
+                android:layout_weight="0.61"></LinearLayout>
 
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
                 android:background="@drawable/grey"
                 android:layout_height="15dp"
-                android:layout_weight="0.57"></TabWidget>
+                android:layout_weight="0.52"></TabWidget>
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
@@ -63,7 +64,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_weight="6.44" />
+                        android:layout_weight="14.75" />
                 </LinearLayout>
 
                 <LinearLayout
