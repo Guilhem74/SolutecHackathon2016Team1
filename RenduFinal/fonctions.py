@@ -21,7 +21,7 @@ def Checkpoint(numero_du_point, CHECKPOINT):
 	affiche un message annoncant le succes du point spécifie ("numero_du_point")
 	"""
 	if CHECKPOINT == True:
-		print "######################### Le checkpoint n." + str(numero_du_point) + " est franchit avec succes #########################"
+		print "######################### Le checkpoint n." + str(numero_du_point) + " est franchi avec succes #########################"
 
 
 def Debug(msg, a_afficher, DEBUG):

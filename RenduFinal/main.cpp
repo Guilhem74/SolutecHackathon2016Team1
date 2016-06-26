@@ -20,7 +20,8 @@ int main(int argc, char** argv)
     assert(argc==2);
     int Nombre_Camera=atoi(argv[1]);
     int Nmbr_Voiture[Nombre_Camera]={};
-    for(int l=0; l<Nombre_Camera;l++)
+    int l;
+    for( l=0; l<Nombre_Camera;l++)
     {
         char Nom_fichier[20+Nombre_Camera/10]="./CAM/Camera";
         sprintf(Nom_fichier,"./CAM/Camera%d.avi",l+1);
@@ -43,15 +44,39 @@ int main(int argc, char** argv)
         Nom_fichier[strlen(Nom_fichier)-2]='p';
         Nom_fichier[strlen(Nom_fichier)-3]='j';
 
+
+            double angle = -90;
+
+            // get rotation matrix for rotating the image around its center
+            cv::Point2f center(Image_Solo.cols/2.0, Image_Solo.rows/2.0);
+            cv::Mat rot = cv::getRotationMatrix2D(center, angle, 1.0);
+            // determine bounding rectangle
+            cv::Rect bbox = cv::RotatedRect(center,Image_Solo.size(), angle).boundingRect();
+            // adjust transformation matrix
+            rot.at<double>(0,2) += bbox.width/2.0 - center.x;
+            rot.at<double>(1,2) += bbox.height/2.0 - center.y;
+
+            cv::Mat dst;
+            cv::warpAffine(Image_Solo, dst, rot, bbox.size());
+
         /*On ecrit l'image*/
-        imwrite( Nom_fichier,Image_Solo);
+        imwrite( Nom_fichier,dst);
         //Nom_fichier.jpg existe alors
 
         /* Executionn du script python afin de modifier photo*/
+        printf("%s\n",Nom_fichier);
         if(fork()==0)
     {//On est fils
-        execlp("python","python","main_superposition_calque.py",Nom_fichier,l+1,NULL);//Disparition du fils avec le execlp
+        char *T[20];
+        T[0] = "python";
+        T[1] ="main_superposition_calque.py";
+        T[2] = Nom_fichier;
+        sprintf(T[3],"%d",l);
+        T[4]=NULL;
+
+        execvp("python",T);//Disparition du fils avec le execlp
         printf("Execlp echoue\n");
+
         exit(-1);
     }
     //On est père
