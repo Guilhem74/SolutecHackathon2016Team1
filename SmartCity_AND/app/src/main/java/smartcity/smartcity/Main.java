@@ -12,11 +12,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Printer;
 import android.view.View;
 
 
 import android.location.LocationListener;
+import android.widget.TabHost;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,6 +40,29 @@ public class Main extends AppCompatActivity implements LocationListener {
 
     private int LOCATION_PERMISSION = 2;
 
+    public void setupTab() {
+        TabHost host = (TabHost)findViewById(R.id.tabHost);
+        host.setup();
+
+        //Tab 1
+        TabHost.TabSpec spec = host.newTabSpec("Favoris");
+        spec.setContent(R.id.tab1);
+        spec.setIndicator("Accueil");
+        host.addTab(spec);
+
+        //Tab 2
+        spec = host.newTabSpec("Favoris");
+        spec.setContent(R.id.tab2);
+        spec.setIndicator("Favoris");
+        host.addTab(spec);
+
+        //Tab 3
+        spec = host.newTabSpec("FAQ");
+        spec.setContent(R.id.tab3);
+        spec.setIndicator("FAQ");
+        host.addTab(spec);
+    }
+
     @Override
     public void onLocationChanged(Location location) {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -48,7 +74,6 @@ public class Main extends AppCompatActivity implements LocationListener {
         }
         locationManager.removeUpdates(this);
     }
-
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) { }
@@ -64,7 +89,7 @@ public class Main extends AppCompatActivity implements LocationListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        setupTab();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
@@ -79,8 +104,9 @@ public class Main extends AppCompatActivity implements LocationListener {
                 map = googleMap;
 
                 LatLng Solutec = new LatLng(45.746149, 4.834771);
-                map.addMarker(new MarkerOptions().position(Solutec).alpha(0.0f));
-                map.moveCamera(CameraUpdateFactory.newLatLng(Solutec));
+                map.addMarker(new MarkerOptions().position(Solutec).alpha(0.0f)); //transpa du marqueur
+                map.moveCamera(CameraUpdateFactory.newLatLng(Solutec)); //Centre la camera sur la tour du web
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(Solutec, 13.0f)); //zoom sur lyon
 
 
                 //Ini des cam
@@ -116,6 +142,8 @@ public class Main extends AppCompatActivity implements LocationListener {
                 float Couleur_place_libre;
                 String Aff_Marqueur_Nbr_place;
                 String Aff_Marqueur_Num_Camera;
+
+                //Crée les marqueurs de X cameras
                 for(i=0;i<Nombre_Camera;i++) {
                     Coord_Cam[i] = new LatLng(Tab_Coord_Lat_Camera[i], Tab_Coord_Lng_Camera[i]);
                     Couleur_place_libre = BitmapDescriptorFactory.HUE_RED;
@@ -134,6 +162,7 @@ public class Main extends AppCompatActivity implements LocationListener {
 
 
         });
+
 
 
     }
