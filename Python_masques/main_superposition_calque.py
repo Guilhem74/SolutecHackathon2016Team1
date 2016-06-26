@@ -1,11 +1,11 @@
 #-*- coding: utf-8 -*-
 from PIL.Image import *
-import ImageFilter
+from PIL import ImageFilter
 from scipy import signal
 from scipy import misc
 from scipy import ndimage
 import numpy as np
-import ImageDraw
+from PIL import ImageDraw
 import sys
 
 from fonctions import *
@@ -19,12 +19,13 @@ Code pour superposer le calque genere précedement à l'image capte par la camer
 # On ouvre la photo de la camera
 print str(sys.argv)
 chemin_acces_photo = sys.argv[1]
-image_cible = Ouvrir_Image(chemin_acces_photo)
+image_cible = Ouvrir_Image("CAM/" + chemin_acces_photo)
+image_cible = image_cible.rotate(-90)
 
 numero_camera = int(sys.argv[2])
 
 # On ouvre le calque
-calque = Ouvrir_Image("calque" + str(numero_camera) + ".png")
+calque = Ouvrir_Image("CAM/calque" + str(numero_camera) + ".png")
 
 # On supperpose le calque 
 for x in range(image_cible.size[0]):

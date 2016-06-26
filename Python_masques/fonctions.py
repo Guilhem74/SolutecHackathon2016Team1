@@ -1,11 +1,11 @@
 #-*- coding: utf-8 -*-
 from PIL.Image import *
-import ImageFilter
+from PIL import ImageFilter
 from scipy import signal
 from scipy import misc
 from scipy import ndimage
 import numpy as np
-import ImageDraw
+from PIL import ImageDraw
 
 
 """
@@ -21,7 +21,7 @@ def Checkpoint(numero_du_point, CHECKPOINT):
 	affiche un message annoncant le succes du point spécifie ("numero_du_point")
 	"""
 	if CHECKPOINT == True:
-		print "######################### Le checkpoint n." + str(numero_du_point) + " est franchit avec succes #########################"
+		print "######################### Le checkpoint n." + str(numero_du_point) + " est franchi avec succes #########################"
 
 
 def Debug(msg, a_afficher, DEBUG):
@@ -39,7 +39,7 @@ def Enregistre_Image(image, nom, IMAGES):
 	Enregistre l'"image" fournie au format PIL avec le "nom" fourni au format png.
 	"""
 	if IMAGES == True :
-		image.save(nom, "PNG")
+		image.save(nom)
 
 
 def Ouvrir_Image(chemin_fichier):
