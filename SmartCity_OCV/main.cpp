@@ -106,17 +106,49 @@ int main(int argc, char** argv)
 // imshow("result_img", result_img);
         //TODO: Comm base de données
     }
-/*
+
     sql::Driver *driver;
      sql::Connection *con;
      sql::Statement *stmt;
      sql::ResultSet *res;
 
      /* Create a connection */
-  /*   driver = get_driver_instance();
-     con = driver->connect("tcp://127.0.0.1:3306", "root", "root");
+     driver = get_driver_instance();
+     con = driver->connect("localhost", "root", "azzaro");
      /* Connect to the MySQL test database */
-  /*   con->setSchema("test");
-*/
+     con->setSchema("Carte_Cam");
+
+     stmt = con->createStatement();
+      res = stmt->executeQuery("SELECT * FROM Camera");
+      while (res->next()) {
+        int Num=res->getInt("Numero") ;
+        int Lat=res->getInt("Latitude");
+        int Long=res->getInt("Longitude") ;
+        int Places_MAX=res->getInt("Nbr_places_MAX") ;
+        int Places_DISPO=res->getInt("Nbr_places_DISPO") ;
+        int Util=res->getInt("Utilisable");
+        if(Num>=Nombre_Camera+1)
+        {
+            break;
+        }
+        printf("PPP\n");
+        if(Util==1)
+        {
+            if(Places_MAX<Nmbr_Voiture[Num-1])
+            {
+                Places_MAX=Nmbr_Voiture[Num-1];
+                Places_DISPO=0;
+            }
+            else
+            {
+                Places_DISPO=Places_MAX-Nmbr_Voiture[Num-1];
+
+            }
+            char Envoie_requete[1000]={};
+               sprintf(Envoie_requete,"UPDATE `Camera` SET `Latitude`=%d, `Longitude`=%d,`Nbr_places_MAX`=%d,`Nbr_places_DISPO`=%d WHERE `Numero`=%d;",Lat,Long,Places_MAX,Places_DISPO,Num);
+            stmt->execute(Envoie_requete);
+        }
+      }
+
 
 }
