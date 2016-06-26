@@ -22,8 +22,8 @@ int main(int argc, char** argv)
     int Nmbr_Voiture[Nombre_Camera]={};
     for(int l=0; l<Nombre_Camera;l++)
     {
-        char Nom_fichier[20+Nombre_Camera/10]="Camera";
-        sprintf(Nom_fichier,"Camera%d.avi",l+1);
+        char Nom_fichier[20+Nombre_Camera/10]="./CAM/Camera";
+        sprintf(Nom_fichier,"./CAM/Camera%d.avi",l+1);
         printf("%s\n",Nom_fichier);
         //Transformation Video to Jpg
         CvCapture* capture=0;
@@ -104,7 +104,7 @@ int main(int argc, char** argv)
         Nmbr_Voiture[l]=Nbr_Vehicules;
         //Nbr_Vehicules représentent le nombres de vehicules présent sur la photo
 // imshow("result_img", result_img);
-        //TODO: Comm base de données
+ 
     }
 
     sql::Driver *driver;
@@ -149,6 +149,9 @@ int main(int argc, char** argv)
             stmt->execute(Envoie_requete);
         }
       }
+      delete res;
+        delete stmt;
+        delete con;
 
 
 }
