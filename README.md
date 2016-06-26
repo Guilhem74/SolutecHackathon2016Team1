@@ -79,17 +79,48 @@ Intégration base de données: **2h**
 
 
 **Pour la BDD :**
-Stockage: **fait**
+Stockage: **fini**
 
 **Pour l’application :**
-Intégrer Map: **fait**
+Intégrer Map: **fini**
 
-Création bouton pour Recherche/Localisation: **fait**
+Création bouton pour Recherche/Localisation: **fini**
 
 Action à associer aux boutons : **2h**
 
 Design: **Fonctionnel**
 
-Lecture base de données: **fait**
+Lecture base de données: **fini**
+
+
+
+###Avancé du planning dimanche matin à 9h35:
+
+**Traitement image**
+
+Création d’un calque: **Fonctionnel** mais en amélioration
+
+Détection véhicules sur une image: **Fonctionnel**
+
+Sur une vidéo: **Fonctionnel**
+
+Intégration base de données: **fini**
+
+
+**Application**
+Intégrer Map: **fini**
+
+Création bouton pour Recherche/Localisation: **fini**
+
+Action à associer aux boutons : **Fonctionnel**
+
+Design: **Fonctionnel**
+
+Lecture base de données: **fini**
+
+
+**Base de données**
+
+Stockage: **fini**
 
 
